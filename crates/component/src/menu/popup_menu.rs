@@ -1189,7 +1189,7 @@ impl PopupMenu {
             Icon::empty()
         };
 
-        Some(icon.xsmall())
+        Some(icon.small())
     }
 
     #[inline]
@@ -1289,7 +1289,7 @@ impl PopupMenu {
                 h_flex()
                     .cursor_default()
                     .items_center()
-                    .gap_x_1()
+                    .gap_x_2()
                     .children(Self::render_icon(has_left_icon, false, None, window, cx))
                     .child(div().flex_1().child(label.clone())),
             ),
@@ -1310,7 +1310,7 @@ impl PopupMenu {
                         .flex_1()
                         .min_h(item_height)
                         .items_center()
-                        .gap_x_1()
+                        .gap_x_2()
                         .children(Self::render_icon(
                             has_left_icon,
                             is_left_check,
@@ -1340,7 +1340,7 @@ impl PopupMenu {
                 })
                 .disabled(*disabled)
                 .h(item_height)
-                .gap_x_1()
+                .gap_x_2()
                 .children(Self::render_icon(
                     has_left_icon,
                     is_left_check,
@@ -1387,7 +1387,7 @@ impl PopupMenu {
                         .min_h(item_height)
                         .size_full()
                         .items_center()
-                        .gap_x_1()
+                        .gap_x_2()
                         .children(Self::render_icon(
                             has_left_icon,
                             false,

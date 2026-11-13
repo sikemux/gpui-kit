@@ -212,11 +212,12 @@ impl InteractiveElement for Button {
 impl StatefulInteractiveElement for Button {}
 
 impl RenderOnce for Button {
-    fn render(self, window: &mut Window, cx: &mut App) -> impl IntoElement {
+    fn render(mut self, window: &mut Window, cx: &mut App) -> impl IntoElement {
         let focus_handle = self.focus_handle(window, cx);
         let disabled = self.disabled;
         let style = self.resolved_style();
         let on_click = self.on_click;
+        let points = !disabled && on_click.is_some() && self.base.style().mouse_cursor.is_none();
 
         self.base
             // Centering is part of Button's control geometry. Without a flex
@@ -256,6 +257,7 @@ impl RenderOnce for Button {
                     cx.stop_propagation();
                 })
             })
+            .when(points, |this| this.cursor_pointer())
             .when_some(
                 (!disabled).then_some(on_click).flatten(),
                 |this, on_click| {

@@ -329,6 +329,9 @@ impl RenderOnce for Popover {
         };
         let parent_view_id = window.current_view();
         let popup = Popup::new(self.id, trigger(open, window, cx))
+            .when(self.mouse_button == MouseButton::Left, |this| {
+                this.cursor_pointer()
+            })
             .refine_style(&self.style)
             .anchor(self.anchor)
             .offset(self.offset)

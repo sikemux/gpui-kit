@@ -1,7 +1,8 @@
 use gpui::{
     AnyElement, App, InteractiveElement as _, IntoElement, ParentElement, RenderOnce,
-    StatefulInteractiveElement, StyleRefinement, Styled, Window, div, relative,
+    StyleRefinement, Styled, Window, div, relative,
 };
+use gpui_base::Clicks as _;
 
 use crate::{
     ActiveTheme as _, StyledExt as _,
@@ -126,9 +127,7 @@ impl RenderOnce for DialogAction {
             .size_full()
             .id("dialog-action")
             .child(anchor.element())
-            .on_click(move |_, window, cx| {
-                anchor.dispatch(&Confirm { secondary: false }, window, cx)
-            })
+            .clicks(move |_, window, cx| anchor.dispatch(&Confirm { secondary: false }, window, cx))
             .children(self.children)
     }
 }

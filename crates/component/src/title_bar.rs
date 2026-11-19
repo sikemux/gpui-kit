@@ -1,3 +1,4 @@
+use gpui_base::Clicks as _;
 use std::rc::Rc;
 
 use crate::{
@@ -227,7 +228,7 @@ impl RenderOnce for ControlIcon {
                     window.prevent_default();
                     cx.stop_propagation();
                 })
-                .on_click(move |_, window, cx| {
+                .clicks(move |_, window, cx| {
                     cx.stop_propagation();
                     match icon {
                         Self::Minimize => window.minimize_window(),

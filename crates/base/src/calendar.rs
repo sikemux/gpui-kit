@@ -1,3 +1,4 @@
+use crate::Clicks as _;
 use crate::TestSupportExt as _;
 use std::rc::Rc;
 
@@ -645,7 +646,7 @@ impl RenderOnce for Calendar {
                 CalendarItem::new("calendar-prev", st).with_label((self.label)(st.kind(), 0));
             if !st.is_disabled() {
                 let entity = self.state.clone();
-                item = item.on_click(move |_, _window, cx| {
+                item = item.clicks(move |_, _window, cx| {
                     entity.update(cx, |s, cx| {
                         if s.view().is_day() {
                             s.prev_month();
@@ -671,7 +672,7 @@ impl RenderOnce for Calendar {
                 let entity = self.state.clone();
                 let mut item = CalendarItem::new(format!("calendar-{kind:?}"), st)
                     .with_label((self.label)(kind, value));
-                item = item.on_click(move |_, _, cx| {
+                item = item.clicks(move |_, _, cx| {
                     entity.update(cx, |s, cx| {
                         s.set_view(
                             if s.view()
@@ -714,7 +715,7 @@ impl RenderOnce for Calendar {
                 CalendarItem::new("calendar-next", st).with_label((self.label)(st.kind(), 0));
             if !st.is_disabled() {
                 let entity = self.state.clone();
-                item = item.on_click(move |_, _, cx| {
+                item = item.clicks(move |_, _, cx| {
                     entity.update(cx, |s, cx| {
                         if s.view().is_day() {
                             s.next_month()
@@ -775,7 +776,7 @@ impl RenderOnce for Calendar {
                                 .aria_label(date.to_string());
                         if !st.is_disabled() {
                             let entity = self.state.clone();
-                            item = item.on_click(move |_, _, cx| {
+                            item = item.clicks(move |_, _, cx| {
                                 entity.update(cx, |s, cx| {
                                     s.activate_date(date, cx);
                                 })
@@ -794,7 +795,7 @@ impl RenderOnce for Calendar {
                 let entity = self.state.clone();
                 let item = CalendarItem::new(format!("calendar-month-{month}"), st)
                     .with_label((self.label)(st.kind(), month as i32))
-                    .on_click(move |_, _, cx| {
+                    .clicks(move |_, _, cx| {
                         entity.update(cx, |s, cx| {
                             s.select_month(month);
                             cx.notify();
@@ -810,7 +811,7 @@ impl RenderOnce for Calendar {
                 let entity = self.state.clone();
                 let item = CalendarItem::new(format!("calendar-year-{year}"), st)
                     .with_label((self.label)(st.kind(), year))
-                    .on_click(move |_, _, cx| {
+                    .clicks(move |_, _, cx| {
                         entity.update(cx, |s, cx| {
                             s.select_year(year);
                             cx.notify();

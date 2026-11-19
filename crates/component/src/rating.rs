@@ -1,5 +1,6 @@
 use crate::theme::ActiveTheme;
 use crate::{Disableable, Icon, IconName, Sizable, Size, StyledExt, h_flex};
+use gpui_base::Clicks as _;
 use std::rc::Rc;
 
 use gpui::{
@@ -175,7 +176,7 @@ impl RenderOnce for Rating {
                                         }
                                     },
                                 ))
-                                .on_click({
+                                .clicks({
                                     let state = state.clone();
                                     let on_click = on_click.clone();
                                     move |_: &ClickEvent, window, cx| {

@@ -1,3 +1,4 @@
+use crate::Clicks as _;
 use std::rc::Rc;
 
 use gpui::{
@@ -173,9 +174,7 @@ impl RenderOnce for Tab {
             .on_mouse_down(MouseButton::Left, |_, _, cx| cx.stop_propagation())
             .when_some(
                 (!disabled).then_some(self.on_click).flatten(),
-                |this, on_click| {
-                    this.on_click(move |event, window, cx| on_click(event, window, cx))
-                },
+                |this, on_click| this.clicks(move |event, window, cx| on_click(event, window, cx)),
             )
             .children(self.children)
             .refine_style(&style)

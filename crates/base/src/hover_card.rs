@@ -1,3 +1,4 @@
+use crate::Clicks as _;
 use std::rc::Rc;
 
 use gpui::{
@@ -238,7 +239,7 @@ impl RenderOnce for HoverCard {
                 .id("trigger")
                 .child(trigger)
                 .when(self.tap_to_open, |trigger| {
-                    trigger.on_click(window.listener_for(&state, move |state, _, window, cx| {
+                    trigger.clicks(window.listener_for(&state, move |state, _, window, cx| {
                         state.cancel_tasks();
                         // Toggle the state rendered by this trigger even if
                         // outside dismissal handles the same release first.

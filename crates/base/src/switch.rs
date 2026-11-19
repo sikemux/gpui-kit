@@ -1,3 +1,4 @@
+use crate::Clicks as _;
 use std::rc::Rc;
 
 use gpui::{
@@ -388,7 +389,7 @@ impl RenderOnce for Switch {
             .when_some(
                 (!disabled).then_some(self.on_change).flatten(),
                 |this, on_change| {
-                    this.on_click(move |event, window, cx| {
+                    this.clicks(move |event, window, cx| {
                         on_change(!checked, event, window, cx);
                     })
                 },

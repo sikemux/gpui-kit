@@ -3,6 +3,7 @@ use gpui::{
     RenderOnce, StatefulInteractiveElement as _, StyleRefinement, Styled, Window, div,
     prelude::FluentBuilder as _, px,
 };
+use gpui_base::Clicks as _;
 use gpui_base::TestSupportExt as _;
 
 use crate::{ActiveTheme as _, AxisExt, Icon, Size, StyleSized, StyledExt as _, ThemeStyled as _};
@@ -145,7 +146,7 @@ impl RenderOnce for StepperTrigger {
             )
             .children(self.children)
             .when(!self.disabled, |this| {
-                this.on_click(move |event, window, cx| {
+                this.clicks(move |event, window, cx| {
                     (self.on_click)(event, window, cx);
                 })
             })

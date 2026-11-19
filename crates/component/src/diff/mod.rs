@@ -16,6 +16,7 @@ pub use parser::{DiffParseError, DiffParseOptions};
 pub use presentation::DiffInlineUnit;
 pub use state::{DiffEvent, DiffState};
 
+use gpui_base::Clicks as _;
 use std::{collections::HashMap, rc::Rc, sync::Arc};
 
 use gpui::{
@@ -1566,7 +1567,7 @@ fn add_annotation_button(
             .aria_label(t!("Diff.AddAnnotation", line = position.line()).to_string())
             .child(Icon::new(IconName::Plus).xsmall())
             .on_mouse_down(MouseButton::Left, |_, _, cx| cx.stop_propagation())
-            .on_click(move |_, window, cx| handler(&range, window, cx))
+            .clicks(move |_, window, cx| handler(&range, window, cx))
             .into_any_element(),
     )
 }
@@ -1752,7 +1753,7 @@ fn code_line(
                 )
                 .when_some(code.on_line_click.clone(), |this, handler| {
                     let position = position.clone();
-                    this.on_click(move |event, window, cx| {
+                    this.clicks_keep_cursor(move |event, window, cx| {
                         // A drag selects text; only a stationary press is a click.
                         if let ClickEvent::Mouse(mouse) = event {
                             let moved = mouse.up.position - mouse.down.position;

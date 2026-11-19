@@ -4,6 +4,7 @@ use gpui::{
     ParentElement, RenderOnce, Role, SharedString, StatefulInteractiveElement as _,
     StyleRefinement, Styled, Window, prelude::FluentBuilder as _,
 };
+use gpui_base::Clicks as _;
 use gpui_base::TestSupportExt as _;
 use smallvec::SmallVec;
 
@@ -122,10 +123,11 @@ impl RenderOnce for MenuItemElement {
                         .text_color(cx.theme().accent_foreground)
                 })
                 .when_some(self.on_click, |this, on_click| {
-                    this.cursor_pointer().on_mouse_down(MouseButton::Left, move |_, _, cx| {
-                        cx.stop_propagation();
-                    })
-                    .on_click(on_click)
+                    this.cursor_pointer()
+                        .on_mouse_down(MouseButton::Left, move |_, _, cx| {
+                            cx.stop_propagation();
+                        })
+                        .clicks(on_click)
                 })
             })
             .when(self.disabled, |this| {

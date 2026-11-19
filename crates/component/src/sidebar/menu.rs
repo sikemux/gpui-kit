@@ -12,6 +12,7 @@ use gpui::{
     ParentElement as _, Role, SharedString, StatefulInteractiveElement as _, StyleRefinement,
     Styled, Window, div, percentage, prelude::FluentBuilder,
 };
+use gpui_base::Clicks as _;
 use gpui_base::TestSupportExt as _;
 use std::rc::Rc;
 
@@ -374,7 +375,7 @@ impl SidebarItem for SidebarMenuItem {
                         this.text_color(cx.theme().muted_foreground)
                     })
                     .when(!is_disabled, |this| {
-                        this.on_click({
+                        this.clicks({
                             let open_state = open_state.clone();
                             move |ev, window, cx| {
                                 if click_to_open {

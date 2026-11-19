@@ -1,3 +1,4 @@
+use crate::Clicks as _;
 use crate::input::{InputExtras as _, InputModeKind};
 use gpui::Corners;
 use gpui::Half;
@@ -1664,7 +1665,7 @@ impl<M: InputModeKind> TextElement<M> {
                     }
                 });
             })
-            .on_click(move |event, window, cx| {
+            .clicks_keep_cursor(move |event, window, cx| {
                 let activation = click_state.update(cx, |state, cx| {
                     let (pressed, revision, _) = state.pressed_token.take()?;
                     if pressed != start || revision != state.document_revision {

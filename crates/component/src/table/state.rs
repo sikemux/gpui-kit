@@ -1,3 +1,4 @@
+use gpui_base::Clicks as _;
 use gpui_base::TestSupportExt as _;
 use std::{ops::Range, rc::Rc, time::Duration};
 
@@ -1787,12 +1788,14 @@ where
             .table_cell_size(self.options.size)
             .when(!is_head, |this| {
                 this.when(self.row_selectable, |this| {
-                    this.on_click(cx.listener(move |table, e: &ClickEvent, _window, cx| {
-                        cx.stop_propagation();
-                        if table.selects_row_on_click(e, cx) {
-                            table.set_selected_row(row_ix, cx);
-                        }
-                    }))
+                    this.clicks_keep_cursor(cx.listener(
+                        move |table, e: &ClickEvent, _window, cx| {
+                            cx.stop_propagation();
+                            if table.selects_row_on_click(e, cx) {
+                                table.set_selected_row(row_ix, cx);
+                            }
+                        },
+                    ))
                 })
             })
     }
@@ -1832,7 +1835,7 @@ where
                 })
                 .hover(|this| this.bg(cx.theme().tokens.secondary).opacity(7.))
                 .active(|this| this.bg(cx.theme().tokens.secondary_active).opacity(1.))
-                .on_click(
+                .clicks(
                     cx.listener(move |table, _, window, cx| table.perform_sort(col_ix, window, cx)),
                 )
                 .child(
@@ -1864,7 +1867,7 @@ where
                     .aria_label(name.clone())
                     .aria_column_index(col_ix)
                     .test_support()
-                    .on_click(cx.listener(move |this, _, window, cx| {
+                    .clicks(cx.listener(move |this, _, window, cx| {
                         this.on_col_head_click(col_ix, window, cx);
                     }))
                     .child(
@@ -2315,7 +2318,7 @@ where
                                                     },
                                                 )
                                                 .when(self.cell_selectable, |this| {
-                                                    this.on_click(cx.listener(
+                                                    this.clicks_keep_cursor(cx.listener(
                                                         move |table, e, window, cx| {
                                                             table.on_cell_click(
                                                                 e, row_ix, col_ix, window, cx,
@@ -2425,7 +2428,7 @@ where
                                                             },
                                                         )
                                                         .when(table.cell_selectable, |this| {
-                                                            this.on_click(cx.listener(
+                                                            this.clicks_keep_cursor(cx.listener(
                                                                 move |table, e, window, cx| {
                                                                     cx.stop_propagation();
                                                                     table.on_cell_click(
@@ -2487,7 +2490,7 @@ where
                         this.on_row_right_click(e, Some(row_ix), window, cx);
                     }),
                 )
-                .on_click(cx.listener(move |this, e, window, cx| {
+                .clicks_keep_cursor(cx.listener(move |this, e, window, cx| {
                     this.on_row_left_click(e, row_ix, window, cx);
                 }))
                 .into_any_element()

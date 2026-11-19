@@ -1,9 +1,10 @@
+use gpui_base::Clicks as _;
 use std::{cell::RefCell, collections::HashSet, rc::Rc, sync::Arc};
 
 use gpui::{
     AnyElement, App, ElementId, InteractiveElement as _, IntoElement, ParentElement, RenderOnce,
-    SharedString, StatefulInteractiveElement as _, StyleRefinement, Styled, Window, div,
-    percentage, prelude::FluentBuilder as _, rems,
+    SharedString, StyleRefinement, Styled, Window, div, percentage, prelude::FluentBuilder as _,
+    rems,
 };
 
 use crate::{ActiveTheme as _, Icon, IconName, Sizable, Size, StyledExt as _, h_flex};
@@ -146,7 +147,7 @@ impl RenderOnce for Accordion {
             .when_some(
                 self.on_toggle_click.filter(|_| !self.disabled),
                 |this, on_toggle| {
-                    this.on_click(move |_, window, cx| {
+                    this.clicks(move |_, window, cx| {
                         let open_indices =
                             open_indices.borrow().iter().copied().collect::<Vec<_>>();
                         on_toggle(&open_indices, window, cx)

@@ -1,0 +1,3 @@
+disallowed-methods = [
+    { path = "gpui::StatefulInteractiveElement::on_click", reason = "use gpui_base::Clicks: `clicks` shows the pointing hand, `clicks_keep_cursor` keeps the cursor as set" },
+]

@@ -1,3 +1,4 @@
+use crate::Clicks as _;
 use gpui::{
     ElementId, Entity, InteractiveElement as _, SharedString, StatefulInteractiveElement as _,
     prelude::FluentBuilder as _,
@@ -111,7 +112,7 @@ impl QuestionnaireChoiceControl {
                     // `on_change` would leave a checked radio inert, but
                     // choosing the selected answer again still confirms it.
                     .when(!disabled, |this| {
-                        this.on_click(move |_, window, cx| {
+                        this.clicks(move |_, window, cx| {
                             let _ = change_state
                                 .update(cx, |state, cx| state.choose(&item, &value, window, cx));
                         })

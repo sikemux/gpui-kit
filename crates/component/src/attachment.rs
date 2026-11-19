@@ -9,7 +9,7 @@ use gpui::{
     relative, rems, white,
 };
 use gpui_base::{
-    is_mobile,
+    Clicks as _, is_mobile,
     motion::{Transition, transition},
 };
 use rust_i18n::t;
@@ -480,7 +480,7 @@ impl RenderOnce for Attachment {
                         .id(id)
                         .absolute()
                         .inset_0()
-                        .on_click(move |event, window, cx| on_click(event, window, cx)),
+                        .clicks(move |event, window, cx| on_click(event, window, cx)),
                 )
             })
             .when_some(self.actions, |this, actions| this.child(actions))
@@ -516,6 +516,9 @@ impl RenderOnce for Attachment {
                         this.invisible()
                             .group_hover(REMOVE_GROUP, |this| this.visible())
                     })
+                    // The control overhangs the card, so a press on it must not
+                    // also arm the card's click layer beneath.
+                    .on_mouse_down(MouseButton::Left, |_, _, cx| cx.stop_propagation())
                     .child(remove_button(id, on_remove, cx)),
             )
             .into_any_element()
@@ -1759,6 +1762,50 @@ mod tests {
             cx.simulate_click(point(px(150.), px(30.)), Modifiers::default());
             assert_eq!(action_clicks.get(), 1);
             assert_eq!(card_clicks.get(), 1);
+        }
+
+        struct RemovableHarness {
+            card_clicks: Rc<Cell<usize>>,
+            removes: Rc<Cell<usize>>,
+        }
+
+        impl Render for RemovableHarness {
+            fn render(&mut self, _: &mut Window, _: &mut Context<Self>) -> impl IntoElement {
+                let card_clicks = self.card_clicks.clone();
+                let removes = self.removes.clone();
+                div().flex().items_start().child(
+                    Attachment::new()
+                        .id("attachment")
+                        .w(px(200.))
+                        .h(px(60.))
+                        .on_click(move |_, _, _| card_clicks.set(card_clicks.get() + 1))
+                        .on_remove(move |_, _, _| removes.set(removes.get() + 1)),
+                )
+            }
+        }
+
+        #[gpui::test]
+        fn remove_does_not_also_click_the_card(cx: &mut TestAppContext) {
+            cx.update(crate::init);
+            let card_clicks = Rc::new(Cell::new(0));
+            let removes = Rc::new(Cell::new(0));
+            let (_, cx) = cx.add_window_view({
+                let card_clicks = card_clicks.clone();
+                let removes = removes.clone();
+                move |_, _| RemovableHarness {
+                    card_clicks,
+                    removes,
+                }
+            });
+            cx.update(|window, cx| window.draw(cx).clear(cx));
+
+            // The remove control overhangs the card's top-right corner, so this
+            // point lies inside both.
+            let on_remove = point(REMOVE_OVERHANG + px(190.), px(12.));
+            cx.simulate_mouse_move(on_remove, None, Modifiers::default());
+            cx.update(|window, cx| window.draw(cx).clear(cx));
+            cx.simulate_click(on_remove, Modifiers::default());
+            assert_eq!((removes.get(), card_clicks.get()), (1, 0));
         }
     }
 

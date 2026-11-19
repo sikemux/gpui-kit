@@ -1,3 +1,4 @@
+use crate::Clicks as _;
 use crate::input::InputState;
 use std::rc::Rc;
 
@@ -766,7 +767,7 @@ impl RenderOnce for ColorSwatch {
             .when_some(
                 (!disabled).then_some(self.on_click).flatten(),
                 |this, on_click| {
-                    this.on_click(move |event, window, cx| on_click(color, event, window, cx))
+                    this.clicks(move |event, window, cx| on_click(color, event, window, cx))
                 },
             )
             .children(self.children)

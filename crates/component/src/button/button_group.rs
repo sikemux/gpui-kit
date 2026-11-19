@@ -2,10 +2,8 @@ use gpui::Corners;
 use gpui::InteractiveElement;
 use gpui::ParentElement;
 use gpui::{App, Axis, Edges, ElementId, IntoElement, Window};
-use gpui::{
-    RenderOnce, StatefulInteractiveElement as _, StyleRefinement, Styled, div,
-    prelude::FluentBuilder as _,
-};
+use gpui::{RenderOnce, StyleRefinement, Styled, div, prelude::FluentBuilder as _};
+use gpui_base::Clicks as _;
 use std::{cell::Cell, rc::Rc};
 
 use crate::{
@@ -243,7 +241,7 @@ impl RenderOnce for ButtonGroup {
             .when_some(
                 self.on_click.filter(|_| !self.disabled),
                 move |this, on_click| {
-                    this.on_click(move |_, window, cx| {
+                    this.clicks(move |_, window, cx| {
                         let mut selected_ixs = selected_ixs.clone();
                         if let Some(ix) = state.get() {
                             if self.multiple {

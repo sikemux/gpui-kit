@@ -1,10 +1,10 @@
 use gpui::{
     AnyElement, App, Bounds, ClickEvent, Context, DismissEvent, Edges, ElementId, Entity,
     EventEmitter, FocusHandle, Focusable, Hsla, InteractiveElement, IntoElement, Length,
-    MouseDownEvent, ParentElement, Pixels, Render, RenderOnce, SharedString,
-    StatefulInteractiveElement, StyleRefinement, Styled, Window, deferred, div,
-    prelude::FluentBuilder, px, rems,
+    MouseDownEvent, ParentElement, Pixels, Render, RenderOnce, SharedString, StyleRefinement,
+    Styled, Window, deferred, div, prelude::FluentBuilder, px, rems,
 };
+use gpui_base::Clicks as _;
 
 use rust_i18n::t;
 
@@ -1004,7 +1004,7 @@ fn render_trigger_container(
             |this| this.focus_ring_style(window, cx),
         )
         .when(allow_open, |this| {
-            this.when_some(toggle_handler, |this, handler| this.on_click(handler))
+            this.when_some(toggle_handler, |this, handler| this.clicks(handler))
         })
         .child(
             h_flex()

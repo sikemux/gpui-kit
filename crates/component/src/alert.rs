@@ -1,3 +1,4 @@
+use gpui_base::Clicks as _;
 use std::rc::Rc;
 
 use gpui::{
@@ -240,7 +241,7 @@ impl RenderOnce for Alert {
                         .rounded(cx.theme().radius)
                         .hover(|this| this.bg(bg.opacity(0.8)))
                         .active(|this| this.bg(bg.opacity(0.9)))
-                        .on_click(move |ev, window, cx| {
+                        .clicks(move |ev, window, cx| {
                             on_close(ev, window, cx);
                         })
                         .child(

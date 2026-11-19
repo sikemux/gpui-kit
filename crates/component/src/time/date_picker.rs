@@ -1,3 +1,4 @@
+use gpui_base::Clicks as _;
 use std::rc::Rc;
 
 use chrono::{NaiveDate, NaiveDateTime, NaiveTime, Weekday};
@@ -739,7 +740,7 @@ impl RenderOnce for DatePicker {
                     .input_text_size(self.size)
                     .input_size(self.size)
                     .when(!state.open && !self.disabled, |this| {
-                        this.on_click(
+                        this.clicks(
                             window.listener_for(&self.state, DatePickerState::toggle_calendar),
                         )
                     })

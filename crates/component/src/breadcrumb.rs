@@ -1,3 +1,4 @@
+use gpui_base::Clicks as _;
 use std::rc::Rc;
 
 use gpui::{
@@ -106,7 +107,7 @@ impl RenderOnce for BreadcrumbItem {
             .refine_style(&self.style)
             .when(!self.disabled, |this| {
                 this.when_some(self.on_click, |this, on_click| {
-                    this.cursor_pointer().on_click(move |event, window, cx| {
+                    this.clicks(move |event, window, cx| {
                         on_click(event, window, cx);
                     })
                 })

@@ -1,3 +1,4 @@
+use crate::Clicks as _;
 use std::{
     cell::RefCell,
     ops::Range,
@@ -312,29 +313,28 @@ impl InlineFlow {
             .when_some(link.clone(), |this, link| {
                 let aux_link = link.clone();
                 let aux_link_click_handler = link_click_handler.clone();
-                this.cursor_pointer()
-                    .on_click(move |event, window, cx| {
-                        crate::TextSelection::end(window, cx);
-                        cx.stop_propagation();
-                        handle_link_click(
-                            &link_click_handler,
-                            link.url.clone(),
-                            event.clone(),
-                            window,
-                            cx,
-                        );
-                    })
-                    .on_aux_click(move |event, window, cx| {
-                        crate::TextSelection::end(window, cx);
-                        cx.stop_propagation();
-                        handle_link_click(
-                            &aux_link_click_handler,
-                            aux_link.url.clone(),
-                            event.clone(),
-                            window,
-                            cx,
-                        );
-                    })
+                this.clicks(move |event, window, cx| {
+                    crate::TextSelection::end(window, cx);
+                    cx.stop_propagation();
+                    handle_link_click(
+                        &link_click_handler,
+                        link.url.clone(),
+                        event.clone(),
+                        window,
+                        cx,
+                    );
+                })
+                .on_aux_click(move |event, window, cx| {
+                    crate::TextSelection::end(window, cx);
+                    cx.stop_propagation();
+                    handle_link_click(
+                        &aux_link_click_handler,
+                        aux_link.url.clone(),
+                        event.clone(),
+                        window,
+                        cx,
+                    );
+                })
             })
             .into_any_element()
     }

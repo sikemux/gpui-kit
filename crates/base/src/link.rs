@@ -1,3 +1,4 @@
+use crate::Clicks as _;
 use std::rc::Rc;
 
 use gpui::{
@@ -188,7 +189,7 @@ impl RenderOnce for Link {
                 })
             })
             .when(!disabled && activates, |this| {
-                this.on_click(move |event, window, cx| {
+                this.clicks(move |event, window, cx| {
                     if let (Some(href), Some(open)) = (&href, &open_with) {
                         open(href.as_ref(), event, window, cx);
                     }

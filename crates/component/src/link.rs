@@ -2,6 +2,7 @@ use gpui::{
     AnyElement, ClickEvent, ElementId, InteractiveElement, IntoElement, MouseButton, ParentElement,
     RenderOnce, SharedString, StatefulInteractiveElement, StyleRefinement, Styled, div,
 };
+use gpui_base::Clicks as _;
 
 use crate::{ActiveTheme as _, StyledExt};
 
@@ -91,7 +92,7 @@ impl RenderOnce for Link {
             .on_mouse_down(MouseButton::Left, |_, _, cx| {
                 cx.stop_propagation();
             })
-            .on_click({
+            .clicks({
                 move |e, window, cx| {
                     if let Some(href) = &href {
                         cx.open_url(&href.clone());

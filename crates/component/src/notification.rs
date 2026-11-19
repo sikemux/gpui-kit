@@ -1,3 +1,4 @@
+use gpui_base::Clicks as _;
 use std::{
     any::TypeId,
     borrow::Cow,
@@ -471,7 +472,7 @@ impl Render for Notification {
                     ),
             )
             .when_some(self.on_click.clone(), |this, on_click| {
-                this.on_click(cx.listener(move |view, event, window, cx| {
+                this.clicks(cx.listener(move |view, event, window, cx| {
                     view.dismiss(window, cx);
                     on_click(event, window, cx);
                 }))

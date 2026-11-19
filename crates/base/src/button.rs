@@ -1,3 +1,4 @@
+use crate::Clicks as _;
 use std::rc::Rc;
 
 use gpui::{
@@ -261,7 +262,7 @@ impl RenderOnce for Button {
             .when_some(
                 (!disabled).then_some(on_click).flatten(),
                 |this, on_click| {
-                    this.on_click(move |event, window, cx| {
+                    this.clicks_keep_cursor(move |event, window, cx| {
                         on_click(event, window, cx);
                     })
                 },

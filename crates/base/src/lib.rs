@@ -21,6 +21,7 @@ mod avatar;
 mod button;
 mod calendar;
 mod checkbox;
+mod clicks;
 mod collapsible;
 mod color_picker;
 mod combobox;
@@ -103,6 +104,7 @@ pub use calendar::{
 pub use checkbox::{
     Checkbox, CheckboxIndicator, CheckboxIndicatorStyles, CheckboxState, CheckboxStyles,
 };
+pub use clicks::Clicks;
 pub use collapsible::Collapsible;
 pub use color_picker::{ColorPicker, ColorPickerEvent, ColorPickerState, ColorSwatch, HslaSliders};
 pub use combobox::Combobox;

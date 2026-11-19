@@ -1,9 +1,10 @@
+use gpui_base::Clicks as _;
 use std::{cell::Cell, rc::Rc, time::Duration};
 
 use gpui::{
     AnyElement, App, Axis, Corners, Edges, ElementId, InteractiveElement, IntoElement,
-    ParentElement, RenderOnce, SharedString, StatefulInteractiveElement, StyleRefinement, Styled,
-    Window, prelude::FluentBuilder as _, relative,
+    ParentElement, RenderOnce, SharedString, StyleRefinement, Styled, Window,
+    prelude::FluentBuilder as _, relative,
 };
 use gpui_base::{Toggle as BaseToggle, ToggleGroup as BaseToggleGroup};
 use smallvec::{SmallVec, smallvec};
@@ -394,7 +395,7 @@ impl RenderOnce for ToggleGroup {
             .when_some(
                 (!disabled).then_some(self.on_click).flatten(),
                 |this, on_click| {
-                    this.on_click(move |_, window, cx| {
+                    this.clicks(move |_, window, cx| {
                         let Some(ix) = clicked_index.take() else {
                             return;
                         };

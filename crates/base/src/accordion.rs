@@ -1,3 +1,4 @@
+use crate::Clicks as _;
 use crate::TestSupportExt as _;
 use std::rc::Rc;
 
@@ -351,7 +352,7 @@ impl RenderOnce for AccordionTrigger {
             .when_some(
                 (!self.disabled).then_some(self.on_change).flatten(),
                 move |this, on_change| {
-                    this.on_click(move |event, window, cx| on_change(next_open, event, window, cx))
+                    this.clicks(move |event, window, cx| on_change(next_open, event, window, cx))
                 },
             )
             .children(self.children)

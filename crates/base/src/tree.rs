@@ -1,3 +1,4 @@
+use crate::Clicks as _;
 use crate::TestSupportExt as _;
 use gpui::StatefulInteractiveElement as _;
 use std::{cell::RefCell, ops::Range, rc::Rc};
@@ -470,7 +471,7 @@ impl Render for TreeState {
                             .when(!entry.is_disabled(), |this| {
                                 // Select and toggle on a full click, like `List` and `Table`
                                 // rows, so a press that is dragged away leaves the entry alone.
-                                this.on_click(cx.listener(move |state, _, _, cx| {
+                                this.clicks(cx.listener(move |state, _, _, cx| {
                                     state.on_entry_click(ix, cx);
                                 }))
                                 .on_mouse_down(

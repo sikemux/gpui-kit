@@ -1,3 +1,4 @@
+use crate::Clicks as _;
 use crate::TestSupportExt as _;
 use std::{
     cell::{Cell, RefCell},
@@ -412,7 +413,7 @@ impl RenderOnce for DialogClose {
             // Tab order, but it sits inside this dialog's dispatch path.
             .child(div().absolute().size_0().track_focus(&anchor))
             .when(self.trigger.is_none(), |this| {
-                this.on_click(move |_, window, cx| Self::activate(&cell, window, cx))
+                this.clicks(move |_, window, cx| Self::activate(&cell, window, cx))
             })
             .children(self.trigger)
             .children(self.children)

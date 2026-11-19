@@ -1,8 +1,8 @@
+use crate::Clicks as _;
 use gpui::prelude::FluentBuilder as _;
 use gpui::{
     App, ClickEvent, FocusHandle, InteractiveElement as _, IntoElement, MouseButton, ParentElement,
-    Pixels, RenderOnce, Role, StatefulInteractiveElement as _, StyleRefinement, Styled, Window,
-    div,
+    Pixels, RenderOnce, Role, StyleRefinement, Styled, Window, div,
 };
 use smallvec::SmallVec;
 
@@ -131,7 +131,7 @@ macro_rules! alert_close_part {
             fn render(self, _: &mut Window, _: &mut App) -> impl IntoElement {
                 div()
                     .id($id)
-                    .on_click(|_, window, cx| {
+                    .clicks(|_, window, cx| {
                         window.dispatch_action(Box::new(crate::actions::Cancel), cx)
                     })
                     .children(self.children)
@@ -181,7 +181,7 @@ impl RenderOnce for AlertDialogAction {
     fn render(self, _: &mut Window, _: &mut App) -> impl IntoElement {
         div()
             .id("alert-dialog-action")
-            .on_click(|_, window, cx| {
+            .clicks(|_, window, cx| {
                 window.dispatch_action(Box::new(crate::actions::Confirm { secondary: false }), cx)
             })
             .children(self.children)

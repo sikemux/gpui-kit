@@ -1,9 +1,10 @@
 use gpui::{
     AnyElement, App, ClickEvent, Context, DismissEvent, Edges, ElementId, Entity, EventEmitter,
     FocusHandle, Focusable, Hsla, InteractiveElement, IntoElement, Length, ParentElement, Render,
-    RenderOnce, SharedString, StatefulInteractiveElement, StyleRefinement, Styled, Window,
-    deferred, div, prelude::FluentBuilder, px, rems,
+    RenderOnce, SharedString, StyleRefinement, Styled, Window, deferred, div,
+    prelude::FluentBuilder, px, rems,
 };
+use gpui_base::Clicks as _;
 use gpui_base::TestSupportExt as _;
 use rust_i18n::t;
 
@@ -586,7 +587,7 @@ where
                             |this| this.focus_ring_style(window, cx),
                         )
                         .when(allow_open, |this| {
-                            this.on_click(cx.listener(Self::toggle_menu))
+                            this.clicks(cx.listener(Self::toggle_menu))
                         })
                         .child(
                             h_flex()

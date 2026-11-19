@@ -1,3 +1,4 @@
+use gpui_base::Clicks as _;
 use gpui_base::TestSupportExt as _;
 use std::rc::Rc;
 
@@ -856,7 +857,7 @@ impl CommandState {
                             this.select(matched_ix, window, cx);
                         }
                     }))
-                    .on_click(cx.listener(move |this, _, window, cx| {
+                    .clicks_keep_cursor(cx.listener(move |this, _, window, cx| {
                         this.confirm(matched_ix, window, cx);
                     }))
             })

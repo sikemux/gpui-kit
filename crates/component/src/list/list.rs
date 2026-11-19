@@ -1,3 +1,4 @@
+use gpui_base::Clicks as _;
 use instant::Duration;
 use std::ops::Range;
 
@@ -513,7 +514,7 @@ where
                     .secondary_selected(mouse_right_clicked)
             }))
             .when(selectable, |this| {
-                this.on_click(cx.listener(move |this, e: &ClickEvent, window, cx| {
+                this.clicks(cx.listener(move |this, e: &ClickEvent, window, cx| {
                     this.set_right_clicked_index(None, window, cx);
                     this.selected_index = Some(ix);
                     this.on_action_confirm(
